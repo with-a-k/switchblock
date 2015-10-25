@@ -1,5 +1,6 @@
 const assert = require('assert');
 const Board = require('../lib/board');
+const Tile = require('../lib/tile');
 
 describe('Board', function () {
   it('should instantiate with a column count', function () {
@@ -61,8 +62,8 @@ describe('Board', function () {
 
   it('can populate itself with tiles', function(){
   	let board = new Board();
-  	assert(board.populate);
-  	board.populate();
+  	assert(board.reset);
+  	board.reset();
   	assert.equal(64, board.tiles.length);
   });
 
@@ -73,14 +74,35 @@ describe('Board', function () {
 
   it('can get a single tile', function(){
   	let board = new Board();
-  	board.populate();
+  	board.reset();
   	assert(board.findTileAtRowAndColumn(3, 5));
   });
 
   it('can get a tile\'s neighbors as an array', function(){
   	let board = new Board(3, 3, 50);
-  	board.populate();
-  	assert(board.neighborsOf(1,1));
-  	assert.equal(4, board.neighborsOf(1,1));
+  	board.reset();
+  	assert(board.neighborsOf);
+  	assert.equal(4, board.neighborsOf(1,1).length);
+  });
+
+  it.skip('can tell tiles to fall with "cascade"', function(){
+  	let board = new Board(1, 3, 50);
+  	let tile1 = new Tile(3, 0, 0, board);
+  	let tile2 = new Tile(2, 0, 1, board);
+  	board.tiles.push(tile1);
+  	board.tiles.push(tile2);
+  	assert(board.cascade);
+  	board.cascade();
+  	assert.equal(1, tile1.row);
+  	assert.equal(2, tile2.row);
+  });
+
+  it('fills empty spaces with new tiles', function(){
+  	let board = new Board(2, 1, 50);
+  	let tile = new Tile(4, 0, 0, board);
+  	board.tiles.push(tile);
+  	assert(board.fill);
+  	board.fill();
+  	assert.equal(2, board.tiles.length);
   });
 });
