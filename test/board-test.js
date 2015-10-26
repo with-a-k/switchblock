@@ -85,7 +85,7 @@ describe('Board', function () {
   	assert.equal(4, board.neighborsOf(1,1).length);
   });
 
-  it.skip('can tell tiles to fall with "cascade"', function(){
+  it('can tell tiles to fall with "cascade"', function(){
   	let board = new Board(1, 3, 50);
   	let tile1 = new Tile(3, 0, 0, board);
   	let tile2 = new Tile(2, 0, 1, board);
@@ -104,5 +104,35 @@ describe('Board', function () {
   	assert(board.fill);
   	board.fill();
   	assert.equal(2, board.tiles.length);
+  });
+
+  it('can detect a horizontal match', function(){
+  	let board = new Board(3, 1, 50);
+  	let tile1 = new Tile(3, 0, 0, board);
+  	let tile2 = new Tile(3, 1, 0, board);
+  	let tile3 = new Tile(3, 2, 0, board);
+  	board.tiles.push(tile1);
+  	board.tiles.push(tile2);
+  	board.tiles.push(tile3);
+  	assert(board.scanForMatches);
+  	board.scanForMatches();
+  	board.tiles.forEach(function(tile){
+  		assert(tile.toClear);
+  	});
+  });
+
+  it('can detect a vertical match', function(){
+  	let board = new Board(1, 2, 50);
+  	let tile1 = new Tile(3, 0, 0, board);
+  	let tile2 = new Tile(3, 0, 1, board);
+  	let tile3 = new Tile(3, 0, 2, board);
+  	board.tiles.push(tile1);
+  	board.tiles.push(tile2);
+  	board.tiles.push(tile3);
+  	assert(board.scanForMatches);
+  	board.scanForMatches();
+  	board.tiles.forEach(function(tile){
+  		assert(tile.toClear);
+  	});
   });
 });
