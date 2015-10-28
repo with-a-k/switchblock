@@ -48,12 +48,6 @@ describe('Board', function () {
   	assert.equal(50, board.tileSize);
   });
 
-  it('should instantiate with an empty tiles', function () {
-  	let board = new Board();
-  	assert(board.tiles);
-  	assert.equal(0, board.tiles.length);
-  });
-
   it('should be aware of the context it inhabits', function (){
   	let context = "false_context";
   	let board = new Board(8, 8, 70, context);
@@ -134,5 +128,49 @@ describe('Board', function () {
   	board.tiles.forEach(function(tile){
   		assert(tile.toClear);
   	});
+  });
+
+  it('removes matches when it sets itself up', function(){
+    let board = new Board(8, 8, 50);
+    board.scanLoop();
+    assert.equal(0, board.scanForMatches());
+  });
+
+  it('can check whether a swap will result in a match', function(){
+    let board = new Board(3, 3, 30);
+    let ourTiles = [
+      new Tile(3,0,0,board),
+      new Tile(2,0,1,board),
+      new Tile(2,0,2,board),
+      new Tile(2,1,0,board),
+      new Tile(1,1,1,board),
+      new Tile(4,1,2,board),
+      new Tile(5,2,0,board),
+      new Tile(6,2,1,board),
+      new Tile(7,2,2,board),
+    ];
+    board.tiles = ourTiles;
+    let tile11 = board.findTileAtRowAndColumn(0,0);
+    let tile21 = board.findTileAtRowAndColumn(1,0);
+    let tile31 = board.findTileAtRowAndColumn(2,0);
+    assert(board.willMatchOnSwap(tile11, tile21));
+    assert(!board.willMatchOnSwap(tile21, tile31));
+  });
+
+  it('can check if there is at least one potential match', function(){
+    let board = new Board(3, 3, 30);
+    let ourTiles = [
+      new Tile(3,0,0,board),
+      new Tile(2,0,1,board),
+      new Tile(2,0,2,board),
+      new Tile(2,1,0,board),
+      new Tile(1,1,1,board),
+      new Tile(4,1,2,board),
+      new Tile(5,2,0,board),
+      new Tile(6,2,1,board),
+      new Tile(7,2,2,board),
+    ];
+    board.tiles = ourTiles;
+    assert(board.possibleMatch());
   });
 });
