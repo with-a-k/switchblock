@@ -490,10 +490,15 @@
 	  if (!board.inProgress) {
 	    context.fillStyle = "#660000";
 	    context.fillText("Game Over. Click to restart", board.width + 50, 200);
+	    canvas.addEventListener('click', restarter);
 	  }
 
 	  requestAnimationFrame(gameLoop);
 	});
+
+	function restarter(e) {
+	  e.target.removeEventListener(e.type, arguments.callee);
+	}
 
 	canvas.addEventListener('click', function (e) {
 	  var x = e.pageX - this.offsetLeft;
