@@ -136,27 +136,6 @@ describe('Board', function () {
     assert.equal(0, board.scanForMatches());
   });
 
-  it('can check whether a swap will result in a match', function(){
-    let board = new Board(3, 3, 30);
-    let ourTiles = [
-      new Tile(3,0,0,board),
-      new Tile(2,0,1,board),
-      new Tile(2,0,2,board),
-      new Tile(2,1,0,board),
-      new Tile(1,1,1,board),
-      new Tile(4,1,2,board),
-      new Tile(5,2,0,board),
-      new Tile(6,2,1,board),
-      new Tile(7,2,2,board),
-    ];
-    board.tiles = ourTiles;
-    let tile11 = board.findTileAtRowAndColumn(0,0);
-    let tile21 = board.findTileAtRowAndColumn(1,0);
-    let tile31 = board.findTileAtRowAndColumn(2,0);
-    assert(board.willMatchOnSwap(tile11, tile21));
-    assert(!board.willMatchOnSwap(tile21, tile31));
-  });
-
   it('can check if there is at least one potential match', function(){
     let board = new Board(3, 3, 30);
     let ourTiles = [
@@ -172,5 +151,75 @@ describe('Board', function () {
     ];
     board.tiles = ourTiles;
     assert(board.possibleMatch());
+  });
+
+  it('can switch two tiles', function(){
+    let board = new Board(3, 3, 30);
+    let ourTiles = [
+      new Tile(3,0,0,board),
+      new Tile(2,0,1,board),
+      new Tile(2,0,2,board),
+      new Tile(2,1,0,board),
+      new Tile(1,1,1,board),
+      new Tile(4,1,2,board),
+      new Tile(5,2,0,board),
+      new Tile(6,2,1,board),
+      new Tile(7,2,2,board)
+    ];
+    board.tiles = ourTiles;
+    let tile11 = board.findTileAtRowAndColumn(0,0);
+    let tile21 = board.findTileAtRowAndColumn(0,1);
+    board.switchTiles(tile11, tile21);
+    assert.notEqual(tile11, board.findTileAtRowAndColumn(0, 0));
+  });
+
+  it('can switch two tiles in the same column', function(){
+    let board = new Board(1, 4, 30);
+    let ourTiles = [
+      new Tile(2,0,0,board),
+      new Tile(2,0,1,board),
+      new Tile(1,0,2,board),
+      new Tile(2,0,3,board)
+    ];
+    board.tiles = ourTiles;
+    let tile13 = board.findTileAtRowAndColumn(3,0);
+    let tile14 = board.findTileAtRowAndColumn(2,0);
+    board.switchTiles(tile13, tile14);
+    assert.notEqual(tile13, board.findTileAtRowAndColumn(2, 0));
+  });
+
+  it('can switch two tiles in the same row', function(){
+    let board = new Board(1, 4, 30);
+    let ourTiles = [
+      new Tile(2,0,0,board),
+      new Tile(2,1,0,board),
+      new Tile(1,2,0,board),
+      new Tile(2,3,0,board)
+    ];
+    board.tiles = ourTiles;
+    let tile13 = board.findTileAtRowAndColumn(0,2);
+    let tile14 = board.findTileAtRowAndColumn(0,3);
+    board.switchTiles(tile13, tile14);
+    assert.notEqual(tile13, board.findTileAtRowAndColumn(0, 2));
+  });
+
+  it('will not switch two tiles if doing so does not create a match', function(){
+    let board = new Board(3, 3, 30);
+    let ourTiles = [
+      new Tile(3,0,0,board),
+      new Tile(2,0,1,board),
+      new Tile(2,0,2,board),
+      new Tile(2,1,0,board),
+      new Tile(1,1,1,board),
+      new Tile(4,1,2,board),
+      new Tile(5,2,0,board),
+      new Tile(6,2,1,board),
+      new Tile(7,2,2,board)
+    ];
+    board.tiles = ourTiles;
+    let tile11 = board.findTileAtRowAndColumn(2,1);
+    let tile33 = board.findTileAtRowAndColumn(2,2);
+    board.switchTiles(tile11, tile33);
+    assert.equal(tile33, board.findTileAtRowAndColumn(2, 2));
   });
 });
