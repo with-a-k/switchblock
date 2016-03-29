@@ -1,4 +1,4 @@
-# Game Time Starter Kit
+# Switchblock
 
 To install the dependencies:
 
