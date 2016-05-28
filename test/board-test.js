@@ -57,7 +57,7 @@ describe('Board', function () {
   it('can populate itself with tiles', function(){
   	let board = new Board();
   	assert(board.reset);
-  	board.reset();
+  	board.fill();
   	assert.equal(64, board.tiles.length);
   });
 
@@ -68,7 +68,7 @@ describe('Board', function () {
 
   it('can get a single tile', function(){
   	let board = new Board();
-  	board.reset();
+  	board.fill();
   	assert(board.findTileAtRowAndColumn(3, 5));
   });
 
@@ -149,6 +149,9 @@ describe('Board', function () {
       new Tile(6,2,1,board),
       new Tile(7,2,2,board),
     ];
+    // 325
+    // 216
+    // 247
     board.tiles = ourTiles;
     assert(board.possibleMatch());
   });
