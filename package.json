@@ -1,7 +1,7 @@
 {
-  "name": "game-time-starter-kit",
+  "name": "switchblock",
   "version": "1.0.0",
-  "description": "A starter kit for Turing School's Game Time project.",
+  "description": "A functional Bejeweled clone.",
   "main": "index.js",
   "scripts": {
     "start": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
@@ -12,7 +12,7 @@
     "type": "git",
     "url": "https://github.com/turingschool-examples/game-time-starter-kit.git"
   },
-  "author": "Steve Kinney",
+  "author": "Erik Butcher",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/turingschool-examples/game-time-starter-kit/issues"
